@@ -1,0 +1,43 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "title": "User",
+  "description": "User json schema",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "integer"
+    },
+    "name": {
+      "type": "string"
+    },
+    "bio": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string"
+    },
+    "pfp_url": {
+      "type": "string"
+    },
+    "followers": {
+      "type": "integer"
+    },
+    "following": {
+      "type": "integer"
+    },
+    "follow": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "fromId": {
+          "type": "integer"
+        },
+        "toId": {
+          "type": "integer"
+        }
+      }
+    }
+  }
+}

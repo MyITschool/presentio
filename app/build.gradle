@@ -1,0 +1,111 @@
+plugins {
+    id 'com.android.application'
+    id 'androidx.navigation.safeargs'
+    id 'jsonschema2pojo'
+    id 'io.objectbox'
+    id 'com.google.gms.google-services'
+}
+
+android {
+    compileSdk 32
+
+    defaultConfig {
+        applicationId "com.presentio"
+        minSdk 24
+        targetSdk 32
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildFeatures {
+        dataBinding = true
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+
+jsonSchema2Pojo {
+    source = files("${android.getSourceSets().main.getResourcesDirectories()[0]}/json")
+
+    targetDirectory = file("${project.buildDir}/gen_sources/js2p")
+
+    targetPackage = 'com.presentio.js2p'
+
+    includeGeneratedAnnotation = false
+
+    usePrimitives = false
+
+    useLongIntegers = true
+
+    useDoubleNumbers = true
+
+    includeHashcodeAndEquals = true
+
+    includeToString = false
+
+    annotationStyle = 'none'
+
+    sourceType = 'jsonschema'
+
+    removeOldOutput = true
+
+    classNamePrefix = 'Json'
+
+    includeGetters = false
+
+    includeSetters = false
+
+    includeAdditionalProperties = false
+}
+
+dependencies {
+    def nav_version = '2.4.2'
+
+    implementation 'com.google.android.gms:play-services-auth:20.2.0'
+
+    implementation "androidx.navigation:navigation-fragment:$nav_version"
+    implementation "androidx.navigation:navigation-ui:$nav_version"
+
+    implementation 'androidx.appcompat:appcompat:1.4.1'
+
+    implementation 'com.google.android.material:material:1.6.0'
+
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+
+    implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
+    implementation 'io.reactivex.rxjava3:rxjava:3.1.3'
+
+    implementation 'com.google.dagger:dagger:2.41'
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.41'
+
+    implementation 'com.google.code.gson:gson:2.9.0'
+    implementation 'com.squareup.picasso:picasso:2.8'
+    implementation 'com.tbuonomo:dotsindicator:4.2'
+
+    implementation 'com.github.mancj:MaterialSearchBar:0.8.5'
+
+    implementation platform('com.google.firebase:firebase-bom:30.1.0')
+    implementation 'com.google.firebase:firebase-analytics'
+
+    implementation 'com.google.firebase:firebase-storage:20.0.1'
+
+    implementation 'com.github.Drjacky:ImagePicker:2.1.15'
+}

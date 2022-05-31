@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="TransparentBottomDialog" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/CustomBottomSheetStyle</item>
+    </style>
+
+    <style name="CustomBottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+
+    <style name="RepostButton" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:textColor">?attr/defaultTextColor</item>
+        <item name="rippleColor">?attr/viewSelectionColor</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+    </style>
+
+    <style name="CreatePostButton" parent="Widget.MaterialComponents.Button">
+        <item name="android:textColor">?attr/defaultTextColor</item>
+        <item name="rippleColor">?attr/viewSelectionColor</item>
+        <item name="backgroundTint">?attr/blockColor</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+    </style>
+
+    <style name="ImageAlertDialog" parent="Theme.MaterialComponents.Dialog.Alert">
+        <item name="colorPrimary">?attr/defaultTextColor</item>
+        <item name="android:background">?attr/viewSelectionColor</item>
+        <item name="colorOnSurface">?attr/lowAttentionTextColor</item>
+    </style>
+
+</resources>

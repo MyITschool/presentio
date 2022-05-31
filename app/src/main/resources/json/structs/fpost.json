@@ -1,0 +1,94 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "Post",
+  "description": "Post json schema",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "integer"
+    },
+    "userId": {
+      "type": "integer"
+    },
+    "user": {
+      "$ref": "user.json"
+    },
+    "text": {
+      "type": "string"
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date"
+    },
+    "reposts": {
+      "type": "integer"
+    },
+    "likes": {
+      "type": "integer"
+    },
+    "comments": {
+      "type": "integer"
+    },
+    "tags": {
+      "type":  "array",
+      "items": {
+        "$ref": "tag.json"
+      }
+    },
+    "sourceId": {
+      "type": "integer"
+    },
+    "source": {
+      "$ref": "fpost.json"
+    },
+    "sourceUserId": {
+      "type": "integer"
+    },
+    "sourceUser": {
+      "$ref": "user.json"
+    },
+    "attachments": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "photoRatio": {
+      "type": "number"
+    },
+    "own": {
+      "type": "boolean"
+    },
+    "liked": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "userId": {
+          "type": "integer"
+        },
+        "postId": {
+          "type": "integer"
+        }
+      }
+    },
+    "favorite": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "userId": {
+          "type": "integer"
+        },
+        "postId": {
+          "type": "integer"
+        }
+      }
+    },
+    "deleted": {
+      "type": "boolean"
+    }
+  }
+}

@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Presentio</string>
+    <string name="slogan">Presents for your beloved</string>
+    <string name="default_content_description">Image</string>
+    <string name="google_sign_in_client_id">1046947284349-skln52sdm0nveopo2i5sb3ig16ffjgrl.apps.googleusercontent.com</string>
+    <string name="register_text">REGISTER</string>
+    <string name="sign_in_text">SIGN IN</string>
+    <string name="data_init_fail">Failed to fetch data. Refresh to try again.</string>
+    <string name="data_refresh_fail">Failed to refresh data. Check your internet connection.</string>
+    <string name="no_posts_found">No posts found</string>
+</resources>

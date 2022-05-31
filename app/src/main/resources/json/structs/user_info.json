@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "User info",
+  "description": "User info json schema",
+  "type": "object",
+  "properties": {
+    "self": {
+      "type": "boolean"
+    },
+    "user": {
+      "$ref": "user.json"
+    }
+  }
+}

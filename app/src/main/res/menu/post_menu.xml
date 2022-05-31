@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/post_not_interested"
+        android:title="Not interested"/>
+
+    <item
+        android:id="@+id/post_hide"
+        android:title="Hide"/>
+
+    <item
+        android:id="@+id/post_open"
+        android:title="Open post"/>
+
+</menu>

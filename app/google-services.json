@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1046947284349",
+    "project_id": "presentio",
+    "storage_bucket": "presentio.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1046947284349:android:bf7a7b3baf71d896c1b814",
+        "android_client_info": {
+          "package_name": "com.presentio"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1046947284349-segcrg3u6jni2ktik039734hf1jsk8c9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.presentio",
+            "certificate_hash": "5eb9a8133a32bc5567e066ff47c7faad13807e40"
+          }
+        },
+        {
+          "client_id": "1046947284349-hcuak3335jo3afmuv37gtclps03s7ue1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDwN52fQ7liwWPHASjDp4hwsfJkJp_mM3Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1046947284349-hcuak3335jo3afmuv37gtclps03s7ue1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

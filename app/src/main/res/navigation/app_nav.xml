@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/app_nav"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.presentio.fragment.HomeFragment"
+        android:label="home_fragment"
+        tools:layout="@layout/home_fragment">
+
+        <action
+            android:id="@+id/action_homeFragment_to_postFragment"
+            app:destination="@id/postFragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.presentio.fragment.SearchFragment"
+        android:label="search_fragment"
+        tools:layout="@layout/search_fragment">
+
+        <action
+            android:id="@+id/action_searchFragment_to_postFragment"
+            app:destination="@id/postFragment" />
+
+        <action
+            android:id="@+id/action_searchFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.presentio.fragment.ProfileFragment"
+        android:label="profile_fragment"
+        tools:layout="@layout/profile_fragment">
+
+        <argument
+            android:name="userId"
+            app:argType="long"
+            android:defaultValue="-1L" />
+
+        <action
+            android:id="@+id/action_profileFragment_to_postFragment"
+            app:destination="@id/postFragment" />
+
+        <action
+            android:id="@+id/action_profileFragment_to_createPostFragment"
+            app:destination="@id/createPostFragment" />
+
+        <action
+            android:id="@+id/action_profileFragment_to_favoritesFragment"
+            app:destination="@id/favoritesFragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/postFragment"
+        android:name="com.presentio.fragment.PostFragment"
+        android:label="post_fragment"
+        tools:layout="@layout/post_fragment">
+
+        <argument
+            android:name="postId"
+            app:argType="long" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/createPostFragment"
+        android:name="com.presentio.fragment.CreatePostFragment"
+        android:label="CreatePostFragment"
+        tools:layout="@layout/create_post_fragment" />
+
+    <fragment
+        android:id="@+id/favoritesFragment"
+        android:name="com.presentio.fragment.FavoritesFragment"
+        android:label="FavoritesFragment"
+        tools:layout="@layout/favorites_fragment" >
+
+        <action
+            android:id="@+id/action_favoritesFragment_to_postFragment"
+            app:destination="@id/postFragment" />
+
+    </fragment>
+
+</navigation>

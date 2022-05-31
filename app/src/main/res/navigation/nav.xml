@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav"
+    app:startDestination="@id/authorizationFragment">
+
+    <fragment
+        android:id="@+id/authorizationFragment"
+        android:name="com.presentio.fragment.AuthorizationFragment"
+        android:label="AuthorizationFragment">
+
+        <action
+            android:id="@+id/action_authorizationFragment_to_appFragment"
+            app:destination="@id/appFragment"
+            app:popUpTo="@id/authorizationFragment"
+            app:popUpToInclusive="true"/>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/appFragment"
+        android:name="com.presentio.fragment.AppFragment"
+        android:label="AppFragment">
+
+        <action
+            android:id="@+id/action_appFragment_to_authorizationFragment"
+            app:destination="@id/authorizationFragment"
+            app:popUpTo="@id/appFragment"
+            app:popUpToInclusive="true"/>
+
+    </fragment>
+
+</navigation>
