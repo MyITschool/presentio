@@ -12,9 +12,9 @@ import java.util.concurrent.Callable;
 import okhttp3.Response;
 
 public class GetUserFavorites implements Callable<ArrayList<JsonFpost>> {
-    private Api postsApi;
-    private DataHandler handler;
-    private int page;
+    private final Api postsApi;
+    private final DataHandler handler;
+    private final int page;
 
     public GetUserFavorites(Api postsApi, int page) {
         this(postsApi, new DefaultDataHandler(), page);

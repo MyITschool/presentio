@@ -12,11 +12,11 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class NewPostRequest implements Callable<Integer> {
-    private Api postsApi;
-    private String text;
-    private ArrayList<String> tags;
-    private String[] attachments;
-    private float photoRatio;
+    private final Api postsApi;
+    private final String text;
+    private final ArrayList<String> tags;
+    private final String[] attachments;
+    private final float photoRatio;
 
     public NewPostRequest(
             Api postsApi,

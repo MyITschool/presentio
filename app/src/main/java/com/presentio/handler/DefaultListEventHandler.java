@@ -11,15 +11,14 @@ import com.presentio.http.Api;
 import com.presentio.util.ObservableUtil;
 import com.presentio.view.PostFullView;
 
-import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.core.SingleObserver;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.disposables.Disposable;
 
 public abstract class DefaultListEventHandler implements PostFullView.EventHandler {
-    protected Context context;
-    protected Api postsApi;
-    protected CompositeDisposable disposable;
+    protected final Context context;
+    protected final Api postsApi;
+    protected final CompositeDisposable disposable;
 
     protected DefaultListEventHandler(
             Context context,

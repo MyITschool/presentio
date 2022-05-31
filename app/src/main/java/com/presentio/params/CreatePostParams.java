@@ -3,7 +3,7 @@ package com.presentio.params;
 import java.util.ArrayList;
 
 public class CreatePostParams {
-    public String text;
+    public final String text;
     public ArrayList<String> tags = new ArrayList<>();
     public String[] attachments = new String[]{};
     public Long sourceId, sourceUserId;

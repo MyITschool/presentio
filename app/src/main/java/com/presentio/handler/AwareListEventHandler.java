@@ -9,7 +9,7 @@ import com.presentio.view.PostFullView;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 
 public abstract class AwareListEventHandler extends DefaultListEventHandler {
-    private PostFullView fullPost;
+    private final PostFullView fullPost;
 
     protected AwareListEventHandler(
             Context context,

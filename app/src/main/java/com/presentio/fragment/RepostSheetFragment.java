@@ -18,9 +18,9 @@ import com.squareup.picasso.Picasso;
 public class RepostSheetFragment extends BottomSheetDialogFragment {
     public static final String TAG = "RepostBottomSheetFragment";
 
-    private JsonUser user;
-    private JsonFpost post;
-    private OnClickHandler handler;
+    private final JsonUser user;
+    private final JsonFpost post;
+    private final OnClickHandler handler;
 
     public interface OnClickHandler {
         void onClick(JsonFpost post, String text);

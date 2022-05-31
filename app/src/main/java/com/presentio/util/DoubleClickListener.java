@@ -9,7 +9,7 @@ import android.view.View;
  */
 public abstract class DoubleClickListener implements View.OnClickListener {
 	private static final long DEFAULT_QUALIFICATION_SPAN = 200;
-	private long doubleClickQualificationSpanInMillis;
+	private final long doubleClickQualificationSpanInMillis;
 	private long timestampLastClick;
 	
 	protected DoubleClickListener() {

@@ -18,11 +18,10 @@ import com.presentio.js2p.structs.JsonTag;
 import com.presentio.util.DoubleClickListener;
 
 import java.util.List;
-import java.util.concurrent.Callable;
 
 public class TagAdapter extends RecyclerView.Adapter<TagAdapter.ViewHolder> {
-    private List<JsonTag> tags;
-    private Context context;
+    private final List<JsonTag> tags;
+    private final Context context;
     private OnClickHandler handler;
 
     public interface OnClickHandler {
@@ -30,7 +29,7 @@ public class TagAdapter extends RecyclerView.Adapter<TagAdapter.ViewHolder> {
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
-        public TextView tag;
+        public final TextView tag;
 
         public ViewHolder(View itemView) {
             super(itemView);

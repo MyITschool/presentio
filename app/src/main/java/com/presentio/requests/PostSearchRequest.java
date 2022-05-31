@@ -12,9 +12,9 @@ import java.util.concurrent.Callable;
 import okhttp3.Response;
 
 public class PostSearchRequest implements Callable<ArrayList<JsonFpost>> {
-    private Api postsApi;
-    private int page;
-    private String query;
+    private final Api postsApi;
+    private final int page;
+    private final String query;
 
     public PostSearchRequest(Api postsApi, int page, String query) {
         this.postsApi = postsApi;

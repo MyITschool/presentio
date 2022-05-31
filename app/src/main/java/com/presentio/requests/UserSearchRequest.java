@@ -13,9 +13,9 @@ import java.util.concurrent.Callable;
 import okhttp3.Response;
 
 public class UserSearchRequest implements Callable<ArrayList<JsonUser>> {
-    private Api usersApi;
-    private int page;
-    private String query;
+    private final Api usersApi;
+    private final int page;
+    private final String query;
 
     public UserSearchRequest(Api usersApi, int page, String query) {
         this.usersApi = usersApi;

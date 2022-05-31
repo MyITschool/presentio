@@ -24,8 +24,8 @@ import io.objectbox.Box;
  * only necessary method
  */
 public class ThemedSuggestionsAdapter extends SuggestionsAdapter<SearchRequest, ThemedSuggestionsAdapter.SuggestionHolder> {
-    private SuggestionsAdapter.OnItemViewClickListener listener;
-    private Box<SearchRequest> requests;
+    private final SuggestionsAdapter.OnItemViewClickListener listener;
+    private final Box<SearchRequest> requests;
 
     public ThemedSuggestionsAdapter(
             LayoutInflater inflater,
@@ -60,13 +60,12 @@ public class ThemedSuggestionsAdapter extends SuggestionsAdapter<SearchRequest, 
 
     class SuggestionHolder extends RecyclerView.ViewHolder {
         private final TextView text;
-        private final ImageView ivDelete;
 
         public SuggestionHolder(final View itemView) {
             super(itemView);
 
             text = itemView.findViewById(R.id.text);
-            ivDelete = itemView.findViewById(R.id.iv_delete);
+            ImageView ivDelete = itemView.findViewById(R.id.iv_delete);
 
             List<SearchRequest> suggestions = getSuggestions();
 

@@ -23,9 +23,9 @@ import io.reactivex.rxjava3.core.SingleObserver;
 import io.reactivex.rxjava3.disposables.Disposable;
 
 public class SearchAdapter extends PostsAdapter {
-    private String query;
-    private Context context;
-    private PostEventHandler handler;
+    private final String query;
+    private final Context context;
+    private final PostEventHandler handler;
 
     public SearchAdapter(
             SearchFragment.SearchData data,

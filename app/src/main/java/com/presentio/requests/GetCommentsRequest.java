@@ -12,10 +12,10 @@ import java.util.concurrent.Callable;
 import okhttp3.Response;
 
 public class GetCommentsRequest implements Callable<ArrayList<JsonComment>> {
-    private DataHandler handler;
-    private Api postsApi;
-    private long postId;
-    private int page;
+    private final DataHandler handler;
+    private final Api postsApi;
+    private final long postId;
+    private final int page;
 
     public GetCommentsRequest(DataHandler handler, Api postsApi, long postId, int page) {
         this.handler = handler;

@@ -39,7 +39,7 @@ import okhttp3.Response;
 
 public class FavoritesFragment extends RefreshDataFragment<FavoritesFragment.FavoritesData> {
     private Api postsApi, usersApi;
-    private CompositeDisposable disposable = new CompositeDisposable();
+    private final CompositeDisposable disposable = new CompositeDisposable();
 
     @Inject
     OkHttpClient client;

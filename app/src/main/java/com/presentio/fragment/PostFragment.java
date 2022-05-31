@@ -47,7 +47,7 @@ import okhttp3.Response;
 
 public class PostFragment extends RefreshDataFragment<PostFragment.PostData> {
     private long postId;
-    private CompositeDisposable disposable = new CompositeDisposable();
+    private final CompositeDisposable disposable = new CompositeDisposable();
     private Api postsApi, usersApi;
 
     @Inject

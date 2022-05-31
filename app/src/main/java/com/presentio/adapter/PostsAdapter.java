@@ -18,13 +18,13 @@ import java.util.ArrayList;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 
 public abstract class PostsAdapter extends InfiniteRecyclerView.PagingAdapter<JsonFpost, PostsAdapter.ViewHolder> {
-    protected CompositeDisposable disposable = new CompositeDisposable();
-    protected Api postsApi;
+    protected final CompositeDisposable disposable = new CompositeDisposable();
+    protected final Api postsApi;
 
     public boolean isList = true;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        View v;
+        final View v;
 
         public ViewHolder(View itemView) {
             super(itemView);

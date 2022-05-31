@@ -9,9 +9,9 @@ import java.util.concurrent.Callable;
 import okhttp3.Response;
 
 public class GetUserInfoRequest implements Callable<JsonUserInfo> {
-    private DataHandler handler;
-    private Api usersApi;
-    private long userId;
+    private final DataHandler handler;
+    private final Api usersApi;
+    private final long userId;
 
     public GetUserInfoRequest(Api usersApi) {
         this(usersApi, -1);

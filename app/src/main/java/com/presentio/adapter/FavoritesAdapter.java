@@ -22,8 +22,8 @@ import io.reactivex.rxjava3.core.SingleObserver;
 import io.reactivex.rxjava3.disposables.Disposable;
 
 public class FavoritesAdapter extends PostsAdapter {
-    private FavoritePostEventHandler handler;
-    private Context context;
+    private final FavoritePostEventHandler handler;
+    private final Context context;
 
     public interface FavoritePostEventHandler extends PostEventHandler {
         void onRemoveFavorites(JsonFpost post, int position);

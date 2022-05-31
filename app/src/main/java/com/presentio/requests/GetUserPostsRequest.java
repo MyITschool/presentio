@@ -12,10 +12,10 @@ import java.util.concurrent.Callable;
 import okhttp3.Response;
 
 public class GetUserPostsRequest implements Callable<ArrayList<JsonFpost>> {
-    private DataHandler handler;
-    private Api postsApi;
-    private int page;
-    private long userId;
+    private final DataHandler handler;
+    private final Api postsApi;
+    private final int page;
+    private final long userId;
 
     public GetUserPostsRequest(Api postsApi, int page) {
         this(new DefaultDataHandler(), postsApi, page);

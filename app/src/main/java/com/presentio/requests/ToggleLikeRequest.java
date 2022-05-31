@@ -8,8 +8,8 @@ import java.util.concurrent.Callable;
 import okhttp3.Response;
 
 public class ToggleLikeRequest implements Callable<Integer> {
-    private Api postsApi;
-    private JsonFpost post;
+    private final Api postsApi;
+    private final JsonFpost post;
 
     public ToggleLikeRequest(Api postsApi, JsonFpost post) {
         this.postsApi = postsApi;

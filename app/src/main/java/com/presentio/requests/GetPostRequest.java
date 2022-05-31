@@ -9,9 +9,9 @@ import java.util.concurrent.Callable;
 import okhttp3.Response;
 
 public class GetPostRequest implements Callable<JsonFpost> {
-    private DataHandler handler;
-    private Api postsApi;
-    private long postId;
+    private final DataHandler handler;
+    private final Api postsApi;
+    private final long postId;
 
     public GetPostRequest(DataHandler handler, Api postsApi, long postId) {
         this.handler = handler;

@@ -8,7 +8,7 @@ import com.presentio.js2p.structs.JsonFpost;
 import com.presentio.view.PostFullView;
 
 public abstract class PopupMenuHandler implements PostFullView.MenuHandler {
-    private Context context;
+    private final Context context;
 
     protected PopupMenuHandler(Context context) {
         this.context = context;

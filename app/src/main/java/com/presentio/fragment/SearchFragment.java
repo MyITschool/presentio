@@ -65,10 +65,10 @@ public class SearchFragment extends RefreshDataFragment<SearchFragment.SearchDat
 
     private static final int MAX_SUGGESTIONS_COUNT = 10;
 
-    private Box<SearchRequest> requestBox = ObjectBox.get().boxFor(SearchRequest.class);
+    private final Box<SearchRequest> requestBox = ObjectBox.get().boxFor(SearchRequest.class);
     private List<SearchRequest> lastSuggestions = null;
 
-    private CompositeDisposable disposable = new CompositeDisposable();
+    private final CompositeDisposable disposable = new CompositeDisposable();
 
     private Screen screen = Screen.DEFAULT;
 

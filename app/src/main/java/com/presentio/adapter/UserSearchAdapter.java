@@ -18,8 +18,6 @@ import com.presentio.util.ObservableUtil;
 import com.presentio.view.InfiniteRecyclerView;
 import com.squareup.picasso.Picasso;
 
-import org.json.JSONException;
-
 import java.util.ArrayList;
 
 import io.reactivex.rxjava3.core.SingleObserver;
@@ -27,11 +25,11 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.disposables.Disposable;
 
 public class UserSearchAdapter extends InfiniteRecyclerView.PagingAdapter<JsonUser, UserSearchAdapter.ViewHolder> {
-    private String query;
-    private Context context;
-    private Api usersApi;
-    private CompositeDisposable disposable = new CompositeDisposable();
-    private OnProfileOpenHandler handler;
+    private final String query;
+    private final Context context;
+    private final Api usersApi;
+    private final CompositeDisposable disposable = new CompositeDisposable();
+    private final OnProfileOpenHandler handler;
 
     public interface OnProfileOpenHandler {
         void onOpen(JsonUser user);
@@ -120,8 +118,8 @@ public class UserSearchAdapter extends InfiniteRecyclerView.PagingAdapter<JsonUs
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public ImageView userImage;
-        public TextView userName;
+        public final ImageView userImage;
+        public final TextView userName;
 
         public ViewHolder(View itemView) {
             super(itemView);

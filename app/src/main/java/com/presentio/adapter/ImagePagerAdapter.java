@@ -13,7 +13,7 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 public class ImagePagerAdapter extends PagerAdapter {
-    private List<String> images;
+    private final List<String> images;
 
     public ImagePagerAdapter(List<String> images) {
         this.images = images;

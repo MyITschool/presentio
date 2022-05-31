@@ -22,9 +22,9 @@ import io.reactivex.rxjava3.core.SingleObserver;
 import io.reactivex.rxjava3.disposables.Disposable;
 
 public class ProfileAdapter extends PostsAdapter {
-    private PostEventHandler handler;
-    private Context context;
-    private long userId;
+    private final PostEventHandler handler;
+    private final Context context;
+    private final long userId;
 
     public ProfileAdapter(
             ArrayList<JsonFpost> posts,

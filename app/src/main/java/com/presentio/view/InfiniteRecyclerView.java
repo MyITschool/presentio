@@ -3,7 +3,6 @@ package com.presentio.view;
 import android.content.Context;
 import android.util.AttributeSet;
 
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,10 +15,10 @@ public class InfiniteRecyclerView extends RecyclerView {
     private boolean finished = false, loading = false;
     private PagingAdapter pagingAdapter;
 
-    public double threshold = 0.75;
+    public final double threshold = 0.75;
 
     public abstract static class PagingAdapter<T, VH extends ViewHolder> extends Adapter<VH> {
-        protected ArrayList<T> data;
+        protected final ArrayList<T> data;
 
         protected PagingAdapter(ArrayList<T> data) {
             this.data = data;

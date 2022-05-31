@@ -33,7 +33,7 @@ public class AppFragment extends Fragment {
     @Inject
     OkHttpClient client;
 
-    private CompositeDisposable disposable = new CompositeDisposable();
+    private final CompositeDisposable disposable = new CompositeDisposable();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

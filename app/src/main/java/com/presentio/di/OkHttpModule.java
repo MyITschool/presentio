@@ -17,7 +17,7 @@ import okhttp3.OkHttpClient;
 
 @Module
 public class OkHttpModule {
-    public Context context;
+    public final Context context;
 
     public OkHttpModule(Context context) {
         this.context = context;

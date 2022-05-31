@@ -12,9 +12,9 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class RepostRequest implements Callable<Integer> {
-    private Api postsApi;
-    private String text;
-    private JsonFpost post;
+    private final Api postsApi;
+    private final String text;
+    private final JsonFpost post;
 
     public RepostRequest(Api postsApi, String text, JsonFpost post) {
         this.postsApi = postsApi;

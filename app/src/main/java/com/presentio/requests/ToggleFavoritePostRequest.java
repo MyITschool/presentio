@@ -8,8 +8,8 @@ import java.util.concurrent.Callable;
 import okhttp3.Response;
 
 public class ToggleFavoritePostRequest implements Callable<Integer> {
-    private Api postsApi;
-    private JsonFpost post;
+    private final Api postsApi;
+    private final JsonFpost post;
 
     public ToggleFavoritePostRequest(Api postsApi, JsonFpost post) {
         this.postsApi = postsApi;

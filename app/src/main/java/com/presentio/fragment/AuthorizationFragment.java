@@ -63,7 +63,7 @@ public class AuthorizationFragment extends Fragment {
     @Inject
     OkHttpClient httpClient;
 
-    private CompositeDisposable disposable = new CompositeDisposable();
+    private final CompositeDisposable disposable = new CompositeDisposable();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

@@ -12,9 +12,9 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class CreateCommentRequest implements Callable<JsonComment> {
-    private Api postsApi;
-    private String text;
-    private long postId;
+    private final Api postsApi;
+    private final String text;
+    private final long postId;
 
     public CreateCommentRequest(Api postsApi, String text, long postId) {
         this.postsApi = postsApi;

@@ -40,7 +40,7 @@ import okhttp3.Response;
 
 public class HomeFragment extends RefreshDataFragment<ArrayList<JsonFpost>> {
     private HomeAdapter adapter;
-    private CompositeDisposable disposable = new CompositeDisposable();
+    private final CompositeDisposable disposable = new CompositeDisposable();
 
     private boolean isList = true;
 

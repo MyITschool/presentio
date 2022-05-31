@@ -47,7 +47,7 @@ import okhttp3.Response;
 
 
 public class ProfileFragment extends RefreshDataFragment<ProfileFragment.ProfileData>{
-    private CompositeDisposable disposable = new CompositeDisposable();
+    private final CompositeDisposable disposable = new CompositeDisposable();
     private Api postsApi, usersApi;
     private long userId;
 

@@ -12,7 +12,7 @@ public class NetworkInterceptor implements Interceptor {
         boolean isOnline();
     }
 
-    NetworkMonitor monitor;
+    final NetworkMonitor monitor;
 
     public NetworkInterceptor(NetworkMonitor monitor) {
         this.monitor = monitor;

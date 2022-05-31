@@ -43,7 +43,6 @@ import java.util.UUID;
 
 import javax.inject.Inject;
 
-import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.core.SingleObserver;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.disposables.Disposable;
@@ -51,17 +50,18 @@ import kotlin.Pair;
 import okhttp3.OkHttpClient;
 
 public class CreatePostFragment extends Fragment {
-    private FirebaseStorage storage = FirebaseStorage.getInstance();
+    private final FirebaseStorage storage = FirebaseStorage.getInstance();
     private Api postsApi;
     private ActivityResultLauncher<Intent> launcher;
     private ImagePagerAdapter adapter;
-    private CompositeDisposable disposable = new CompositeDisposable();
+    private final CompositeDisposable disposable = new CompositeDisposable();
 
     @Inject
     OkHttpClient client;
 
-    private ArrayList<JsonTag> jsonTags = new ArrayList<>();
-    private ArrayList<String> localUris = new ArrayList<>(), tags = new ArrayList<>();
+    private final ArrayList<JsonTag> jsonTags = new ArrayList<>();
+    private final ArrayList<String> localUris = new ArrayList<>();
+    private final ArrayList<String> tags = new ArrayList<>();
     private float ratio;
 
     @Override

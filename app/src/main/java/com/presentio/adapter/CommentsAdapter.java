@@ -25,9 +25,9 @@ import io.reactivex.rxjava3.disposables.Disposable;
 
 
 public class CommentsAdapter extends InfiniteRecyclerView.PagingAdapter<JsonComment, CommentsAdapter.ViewHolder> {
-    private long postId;
-    private Api postsApi;
-    private CompositeDisposable disposable = new CompositeDisposable();
+    private final long postId;
+    private final Api postsApi;
+    private final CompositeDisposable disposable = new CompositeDisposable();
 
     public CommentsAdapter(
             ArrayList<JsonComment> comments,
@@ -109,8 +109,9 @@ public class CommentsAdapter extends InfiniteRecyclerView.PagingAdapter<JsonComm
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public ImageView userImage;
-        public TextView userUsername, userComment;
+        public final ImageView userImage;
+        public final TextView userUsername;
+        public final TextView userComment;
 
         public ViewHolder(View itemView) {
             super(itemView);

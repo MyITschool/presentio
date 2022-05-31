@@ -7,8 +7,8 @@ import java.util.concurrent.Callable;
 import okhttp3.Response;
 
 public class DeletePostRequest implements Callable<Integer> {
-    private Api postsApi;
-    private long postId;
+    private final Api postsApi;
+    private final long postId;
 
     public DeletePostRequest(Api postsApi, long postId) {
         this.postsApi = postsApi;
