@@ -1,0 +1,1 @@
+[![Android CI](https://github.com/evonicgu/presentio/actions/workflows/android.yml/badge.svg)](https://github.com/evonicgu/presentio/actions/workflows/android.yml)
