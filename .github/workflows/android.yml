@@ -26,6 +26,15 @@ jobs:
       run: ./gradlew build
     - name: Build Release APK
       run: ./gradlew assembleRelease
+    - name: Sign APK
+      uses: r0adkll/sign-android-release@v1
+      id: sign_apk
+      with:
+        releaseDirectory: app/build/outputs/apk/release
+        signingKeyBase64: ${{ secrets.SIGNING_KEY }}
+        alias: ${{ secrets.KEY_ALIAS }}
+        keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
+        keyPassword: ${{ secrets.KEY_PASSWORD }}
     - name: Releasing using Hub
       uses: evonicgu/action-release-releaseapk@master
       env:
@@ -33,3 +42,4 @@ jobs:
         APP_FOLDER: app
         RELEASE_TITLE: New Build
         REPO_BRANCH: master
+        PATH_TO_APK: ${{ steps.sign_apk.outputs.signedReleaseFile }}
