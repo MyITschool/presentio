@@ -23,7 +23,7 @@ jobs:
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
     - name: Build Release APK
-      run: ./gradlew assembleRelease
+      run: ./gradlew assemleDebug
     - name: Releasing using Hub
       uses: ShaunLWM/action-release-debugapk@0.0.6
       env:
