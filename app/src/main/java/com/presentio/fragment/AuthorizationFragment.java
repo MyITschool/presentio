@@ -12,6 +12,7 @@ import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 
 import com.google.android.gms.auth.api.identity.BeginSignInRequest;
 import com.google.android.gms.auth.api.identity.BeginSignInRequest.PasswordRequestOptions;
@@ -291,7 +292,7 @@ public class AuthorizationFragment extends Fragment {
         NavDirections directions =
                 AuthorizationFragmentDirections.actionAuthorizationFragmentToAppFragment();
 
-        Navigation.findNavController(getView()).navigate(directions);
+        NavHostFragment.findNavController(this).navigate(directions);
     }
 
     @Override

@@ -139,7 +139,10 @@ public class Api {
         while (code == 406 || code == 408 || code == 400 || code == 403) {
             AccessTokenUtil.setToken(getNewToken());
 
-            request = request.newBuilder().build();
+            request = request
+                    .newBuilder()
+                    .header("Authorization", "Bearer " + AccessTokenUtil.getToken())
+                    .build();
 
             response = client.newCall(request).execute();
             code = response.code();

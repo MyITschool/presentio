@@ -256,11 +256,7 @@ public class ProfileFragment extends RefreshDataFragment<ProfileFragment.Profile
         ViewUtil.setVisible(favorites, data.userInfo.self);
 
         favorites.setOnClickListener(v -> {
-            NavHostFragment hostFragment = (NavHostFragment) getParentFragment();
-
-            NavController navController = hostFragment.getNavController();
-
-            navController.navigate(
+            NavHostFragment.findNavController(this).navigate(
                     ProfileFragmentDirections.actionProfileFragmentToFavoritesFragment()
             );
         });
@@ -274,11 +270,7 @@ public class ProfileFragment extends RefreshDataFragment<ProfileFragment.Profile
 
     private void setupCreateListener(View view) {
         view.findViewById(R.id.profile_create).setOnClickListener(v -> {
-            NavHostFragment hostFragment = (NavHostFragment) getParentFragment();
-
-            NavController navController = hostFragment.getNavController();
-
-            navController.navigate(
+            NavHostFragment.findNavController(this).navigate(
                     ProfileFragmentDirections.actionProfileFragmentToCreatePostFragment()
             );
         });
@@ -426,11 +418,8 @@ public class ProfileFragment extends RefreshDataFragment<ProfileFragment.Profile
         return new PostEventHandler() {
             @Override
             public void onOpen(JsonFpost post) {
-                NavHostFragment hostFragment = (NavHostFragment) getParentFragment();
 
-                NavController controller = hostFragment.getNavController();
-
-                controller.navigate(
+                NavHostFragment.findNavController(ProfileFragment.this).navigate(
                         ProfileFragmentDirections.actionProfileFragmentToPostFragment(post.id)
                 );
             }

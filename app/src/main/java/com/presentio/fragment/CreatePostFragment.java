@@ -14,6 +14,7 @@ import android.widget.Toast;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -346,7 +347,7 @@ public class CreatePostFragment extends Fragment {
     private void onCreated() {
         Toast.makeText(getContext(), "Post created!", Toast.LENGTH_SHORT).show();
 
-        getFragmentManager().popBackStack();
+        NavHostFragment.findNavController(this).popBackStack();
     }
 
     @Override

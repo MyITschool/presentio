@@ -225,11 +225,7 @@ public class FavoritesFragment extends RefreshDataFragment<FavoritesFragment.Fav
 
                     @Override
                     public void onOpen(JsonFpost post) {
-                        NavHostFragment hostFragment = (NavHostFragment) getParentFragment();
-
-                        NavController controller = hostFragment.getNavController();
-
-                        controller.navigate(
+                        NavHostFragment.findNavController(FavoritesFragment.this).navigate(
                                 FavoritesFragmentDirections.actionFavoritesFragmentToPostFragment(post.id)
                         );
                     }

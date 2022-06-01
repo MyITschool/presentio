@@ -104,9 +104,7 @@ public class AppFragment extends Fragment {
 
         SharedPreferencesUtil.removeRefreshToken(preferences);
 
-        NavHostFragment appHostFragment = (NavHostFragment) getParentFragment();
-
-        appHostFragment.getNavController().navigate(
+        NavHostFragment.findNavController(this).navigate(
                 AppFragmentDirections.actionAppFragmentToAuthorizationFragment()
         );
     }

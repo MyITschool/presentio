@@ -1,6 +1,7 @@
 package com.presentio.fragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -51,6 +52,7 @@ import javax.inject.Inject;
 
 import io.objectbox.Box;
 import io.objectbox.query.Query;
+import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.core.SingleObserver;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.disposables.Disposable;
@@ -231,14 +233,14 @@ public class SearchFragment extends RefreshDataFragment<SearchFragment.SearchDat
     }
 
     private void toSearchScreen() {
+        resetTab();
+
         View view = getView();
 
         view.findViewById(R.id.results_screen).setVisibility(View.VISIBLE);
         view.findViewById(R.id.explore_screen).setVisibility(View.GONE);
 
         screen = Screen.SEARCH;
-
-        resetTab();
     }
 
     @Override
@@ -299,7 +301,28 @@ public class SearchFragment extends RefreshDataFragment<SearchFragment.SearchDat
     }
 
     private void refreshDefault() {
-        onRefreshFinished(true);
+        ObservableUtil.singleIo(() -> {
+            // pretend to do long-running io operation
+            Thread.sleep(50);
+            onRefreshFinished(true);
+
+            return true;
+        }, new SingleObserver<Boolean>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+                disposable.add(d);
+            }
+
+            @Override
+            public void onSuccess(Boolean success) {
+                Log.d("SEARCH", "Refreshed default fragment");
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                Toast.makeText(getContext(), "Failed refresh default", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void refreshSearch() {
@@ -620,13 +643,9 @@ public class SearchFragment extends RefreshDataFragment<SearchFragment.SearchDat
 
     private UserSearchAdapter getUserPagingAdapter() {
         return new UserSearchAdapter(data.users, data.userRequestParams, getContext(), usersApi, user -> {
-            NavHostFragment hostFragment = (NavHostFragment) getParentFragment();
-
-            NavController controller = hostFragment.getNavController();
-
             savePages();
 
-            controller.navigate(
+            NavHostFragment.findNavController(this).navigate(
                     SearchFragmentDirections.actionSearchFragmentToProfileFragment(user.id)
             );
         });
@@ -636,13 +655,11 @@ public class SearchFragment extends RefreshDataFragment<SearchFragment.SearchDat
         return new PostEventHandler() {
             @Override
             public void onOpen(JsonFpost post) {
-                NavHostFragment hostFragment = (NavHostFragment) getParentFragment();
-
-                NavController controller = hostFragment.getNavController();
-
                 savePages();
 
-                controller.navigate(SearchFragmentDirections.actionSearchFragmentToPostFragment(post.id));
+                NavHostFragment
+                        .findNavController(SearchFragment.this)
+                        .navigate(SearchFragmentDirections.actionSearchFragmentToPostFragment(post.id));
             }
 
             @Override
@@ -699,7 +716,7 @@ public class SearchFragment extends RefreshDataFragment<SearchFragment.SearchDat
 
         TabLayout tabs = view.findViewById(R.id.search_tab_select);
 
-        if (tabs.getSelectedTabPosition() == POST_TAB_POSITION) {
+        if (tabs.getSelectedTabPosition() == POST_TAB_POSITION || screen == Screen.SEARCH) {
             return;
         }
 
