@@ -139,8 +139,11 @@ public class AuthorizationFragment extends Fragment {
                     Toast.makeText(getContext(), "Failed to authorize", Toast.LENGTH_SHORT).show();
                     break;
             }
+
+            isCurrRequesting = false;
         } catch (IOException e) {
             Toast.makeText(getContext(), "Failed to authorize", Toast.LENGTH_SHORT).show();
+            isCurrRequesting = false;
         }
     }
 
