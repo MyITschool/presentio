@@ -30,4 +30,11 @@
         <item name="colorOnSurface">?attr/lowAttentionTextColor</item>
     </style>
 
+    <style name="SearchTabLayout" parent="Widget.MaterialComponents.TabLayout">
+        <item name="background">?attr/background</item>
+        <item name="tabIndicatorColor">?attr/lowAttentionTextColor</item>
+        <item name="tabTextColor">?attr/inactiveTextColor</item>
+        <item name="tabSelectedTextColor">?attr/defaultTextColor</item>
+    </style>
+
 </resources>

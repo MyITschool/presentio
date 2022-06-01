@@ -8,4 +8,5 @@
     <string name="data_init_fail">Failed to fetch data. Refresh to try again.</string>
     <string name="data_refresh_fail">Failed to refresh data. Check your internet connection.</string>
     <string name="no_posts_found">No posts found</string>
+    <string name="no_users_found">No users found</string>
 </resources>

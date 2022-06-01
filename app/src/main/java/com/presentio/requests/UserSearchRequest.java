@@ -3,7 +3,6 @@ package com.presentio.requests;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.presentio.http.Api;
-import com.presentio.js2p.structs.JsonFpost;
 import com.presentio.js2p.structs.JsonUser;
 
 import java.lang.reflect.Type;
@@ -28,7 +27,7 @@ public class UserSearchRequest implements Callable<ArrayList<JsonUser>> {
         Response response = usersApi.requestForce("/v0/user/search/" + page + '?' + query);
 
         Gson gson = new Gson();
-        Type type = new TypeToken<ArrayList<JsonFpost>>() {}.getType();
+        Type type = new TypeToken<ArrayList<JsonUser>>() {}.getType();
 
         return gson.fromJson(response.body().charStream(), type);
     }

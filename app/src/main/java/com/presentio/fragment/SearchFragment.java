@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.google.android.material.tabs.TabLayout;
 import com.mancj.materialsearchbar.MaterialSearchBar;
 import com.mancj.materialsearchbar.SimpleOnSearchActionListener;
 import com.presentio.R;
@@ -63,6 +64,9 @@ public class SearchFragment extends RefreshDataFragment<SearchFragment.SearchDat
         SEARCH
     }
 
+    private static final int POST_TAB_POSITION = 0;
+    private static final int USER_TAB_POSITION = 1;
+
     private static final int MAX_SUGGESTIONS_COUNT = 10;
 
     private final Box<SearchRequest> requestBox = ObjectBox.get().boxFor(SearchRequest.class);
@@ -95,7 +99,7 @@ public class SearchFragment extends RefreshDataFragment<SearchFragment.SearchDat
         public ArrayList<JsonFpost> posts = new ArrayList<>();
         public ArrayList<JsonUser> users = new ArrayList<>();
         public String query, postRequestParams, userRequestParams;
-        public int page;
+        public int postPage, userPage;
         public JsonUserInfo userInfo;
     }
 
@@ -233,6 +237,8 @@ public class SearchFragment extends RefreshDataFragment<SearchFragment.SearchDat
         view.findViewById(R.id.explore_screen).setVisibility(View.GONE);
 
         screen = Screen.SEARCH;
+
+        resetTab();
     }
 
     @Override
@@ -262,6 +268,8 @@ public class SearchFragment extends RefreshDataFragment<SearchFragment.SearchDat
 
         SwipeRefreshLayout refreshLayout = view.findViewById(R.id.refresh_search);
         refreshLayout.setOnRefreshListener(() -> refreshLayout.setRefreshing(onRefresh()));
+
+        setupTabListener(view);
     }
 
     @Override
@@ -304,8 +312,9 @@ public class SearchFragment extends RefreshDataFragment<SearchFragment.SearchDat
 
     private void fillSearch(View view) {
         toSearchScreen();
+
         finishSearchLoading();
-        restoreResults(view);
+        showResults(true);
     }
 
     private MaterialSearchBar.OnSearchActionListener getSearchListener(
@@ -349,7 +358,7 @@ public class SearchFragment extends RefreshDataFragment<SearchFragment.SearchDat
         data.userRequestParams = formUserRequestParameters(query);
 
         Finisher finisher = new Finisher() {
-            private static final int TOTAL = 1;
+            private static final int TOTAL = 2;
             private int completed = 0;
             private boolean success = true;
             
@@ -361,7 +370,7 @@ public class SearchFragment extends RefreshDataFragment<SearchFragment.SearchDat
                     callback.onSearchDone(this.success);
                     
                     if (this.success) {
-                        showResults();
+                        showResults(false);
                     } else {
                         Toast.makeText(getContext(), "Failed to load search results", Toast.LENGTH_SHORT).show();
                     }
@@ -436,32 +445,33 @@ public class SearchFragment extends RefreshDataFragment<SearchFragment.SearchDat
         finishSearchLoading();
     }
 
-    private void restoreResults(View view) {
-        ViewUtil.setVisible(view.findViewById(R.id.result_not_found), data.posts.size() == 0);
-
-        PostsView searchResults = view.findViewById(R.id.post_search_results);
-
-        searchResults.setPage(data.page);
-        searchResults.setPagingAdapter(getPostPagingAdapter());
-    }
-
-    private void showResults() {
+    private void showResults(boolean restored) {
         View view = getView();
 
-        ViewUtil.setVisible(view.findViewById(R.id.result_not_found), data.posts.size() == 0);
+        ViewUtil.setVisible(view.findViewById(R.id.post_result_not_found), data.posts.size() == 0);
 
         PostsView postSearchResults = view.findViewById(R.id.post_search_results);
 
+        if (restored) {
+            postSearchResults.setPage(data.postPage);
+        } else {
+            postSearchResults.reset();
+        }
         postSearchResults.reset();
         postSearchResults.setPagingAdapter(getPostPagingAdapter());
 
+        ViewUtil.setVisible(view.findViewById(R.id.user_result_not_found), data.users.size() == 0);
+
         InfiniteRecyclerView userSearchResults = view.findViewById(R.id.user_search_results);
 
-        userSearchResults.reset();
+        if (restored) {
+            userSearchResults.setPage(data.userPage);
+        } else {
+            userSearchResults.reset();
+        }
         userSearchResults.setPagingAdapter(getUserPagingAdapter());
-        userSearchResults.setLayoutManager(new GridLayoutManager(
+        userSearchResults.setLayoutManager(new LinearLayoutManager(
                 getContext(),
-                2,
                 LinearLayoutManager.HORIZONTAL,
                 false
         ));
@@ -471,7 +481,9 @@ public class SearchFragment extends RefreshDataFragment<SearchFragment.SearchDat
         View view = getView();
 
         view.findViewById(R.id.post_search_results).setVisibility(View.GONE);
-        view.findViewById(R.id.result_not_found).setVisibility(View.GONE);
+        view.findViewById(R.id.post_result_not_found).setVisibility(View.GONE);
+        view.findViewById(R.id.user_search_results).setVisibility(View.GONE);
+        view.findViewById(R.id.user_result_not_found).setVisibility(View.GONE);
         view.findViewById(R.id.results_loader).setVisibility(View.VISIBLE);
     }
 
@@ -479,7 +491,9 @@ public class SearchFragment extends RefreshDataFragment<SearchFragment.SearchDat
         View view = getView();
 
         view.findViewById(R.id.post_search_results).setVisibility(View.VISIBLE);
-        view.findViewById(R.id.result_not_found).setVisibility(View.GONE);
+        view.findViewById(R.id.post_result_not_found).setVisibility(View.GONE);
+        view.findViewById(R.id.user_search_results).setVisibility(View.VISIBLE);
+        view.findViewById(R.id.user_result_not_found).setVisibility(View.GONE);
         view.findViewById(R.id.results_loader).setVisibility(View.GONE);
     }
 
@@ -610,8 +624,10 @@ public class SearchFragment extends RefreshDataFragment<SearchFragment.SearchDat
 
             NavController controller = hostFragment.getNavController();
 
+            savePages();
+
             controller.navigate(
-                    SearchFragmentDirections.actionSearchFragmentToProfileFragment()
+                    SearchFragmentDirections.actionSearchFragmentToProfileFragment(user.id)
             );
         });
     }
@@ -624,11 +640,9 @@ public class SearchFragment extends RefreshDataFragment<SearchFragment.SearchDat
 
                 NavController controller = hostFragment.getNavController();
 
+                savePages();
+
                 controller.navigate(SearchFragmentDirections.actionSearchFragmentToPostFragment(post.id));
-
-                PostsView postsView = getView().findViewById(R.id.post_search_results);
-
-                data.page = postsView.getPage();
             }
 
             @Override
@@ -637,6 +651,59 @@ public class SearchFragment extends RefreshDataFragment<SearchFragment.SearchDat
                 fragment.show(getChildFragmentManager(), RepostSheetFragment.TAG);
             }
         };
+    }
+
+    private void savePages() {
+        PostsView postsView = getView().findViewById(R.id.post_search_results);
+
+        data.postPage = postsView.getPage();
+
+        InfiniteRecyclerView usersView = getView().findViewById(R.id.user_search_results);
+
+        data.userPage = usersView.getPage();
+    }
+
+    private void setupTabListener(View view) {
+        TabLayout tabs = view.findViewById(R.id.search_tab_select);
+
+        tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                ViewUtil.setVisible(
+                        view.findViewById(R.id.post_result_wrapper),
+                        tab.getPosition() == POST_TAB_POSITION
+                );
+
+                ViewUtil.setVisible(
+                        view.findViewById(R.id.user_result_wrapper),
+                        tab.getPosition() == USER_TAB_POSITION
+                );
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+                // nothing to do in tab unselected
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+                SwipeRefreshLayout refreshLayout = view.findViewById(R.id.refresh_search);
+                refreshLayout.setRefreshing(onRefresh());
+            }
+        });
+    }
+
+    private void resetTab() {
+        View view = getView();
+
+        TabLayout tabs = view.findViewById(R.id.search_tab_select);
+
+        if (tabs.getSelectedTabPosition() == POST_TAB_POSITION) {
+            return;
+        }
+
+        tabs.selectTab(tabs.getTabAt(POST_TAB_POSITION));
     }
 
     @Override

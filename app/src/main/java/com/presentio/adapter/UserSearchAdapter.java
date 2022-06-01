@@ -65,7 +65,7 @@ public class UserSearchAdapter extends InfiniteRecyclerView.PagingAdapter<JsonUs
 
         holder.userName.setText(user.name);
 
-        holder.userImage.setOnClickListener(v -> handler.onOpen(data.get(holder.getAdapterPosition())));
+        holder.whole.setOnClickListener(v -> handler.onOpen(data.get(holder.getAdapterPosition())));
     }
 
     @Override
@@ -120,10 +120,12 @@ public class UserSearchAdapter extends InfiniteRecyclerView.PagingAdapter<JsonUs
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public final ImageView userImage;
         public final TextView userName;
+        public final View whole;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
+            whole = itemView;
             userImage = itemView.findViewById(R.id.search_user_image);
             userName = itemView.findViewById(R.id.search_user_name);
         }
