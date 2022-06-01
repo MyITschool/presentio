@@ -134,15 +134,16 @@ public class Api {
     private Response getResponse(Request request) throws IOException, InvalidCredentialsException {
         Response response = client.newCall(request).execute();
 
-        if (response.code() == 406 || response.code() == 408 || response.code() == 400 || response.code() == 403) {
+        int code = response.code();
+
+        while (code == 406 || code == 408 || code == 400 || code == 403) {
             AccessTokenUtil.setToken(getNewToken());
-        } else {
-            return response;
+
+            request = request.newBuilder().build();
+
+            response = client.newCall(request).execute();
+            code = response.code();
         }
-
-        request = request.newBuilder().build();
-
-        response = client.newCall(request).execute();
 
         return response;
     }
