@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -257,7 +258,7 @@ public class PostFragment extends RefreshDataFragment<PostFragment.PostData> {
         post.fillView(data.post, new AwareListEventHandler(getContext(), postsApi, disposable, post) {
             @Override
             protected void removeItem() {
-                getFragmentManager().popBackStack();
+                NavHostFragment.findNavController(PostFragment.this).popBackStack();
             }
 
             @Override

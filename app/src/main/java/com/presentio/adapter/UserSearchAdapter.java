@@ -61,11 +61,12 @@ public class UserSearchAdapter extends InfiniteRecyclerView.PagingAdapter<JsonUs
     public void onBindViewHolder(ViewHolder holder, int position) {
         JsonUser user = data.get(position);
 
+        holder.userImage.setClipToOutline(true);
         Picasso.get().load(user.pfpUrl).into(holder.userImage);
 
         holder.userName.setText(user.name);
 
-        holder.whole.setOnClickListener(v -> handler.onOpen(data.get(holder.getAdapterPosition())));
+        holder.itemView.setOnClickListener(v -> handler.onOpen(data.get(holder.getAdapterPosition())));
     }
 
     @Override
@@ -90,18 +91,16 @@ public class UserSearchAdapter extends InfiniteRecyclerView.PagingAdapter<JsonUs
 
                     @Override
                     public void onSuccess(ArrayList<JsonUser> jsonUsers) {
-                        boolean finished = false;
-
                         if (jsonUsers.size() == 0) {
-                            finished = true;
-                        } else {
-                            int size = data.size();
-
-                            data.addAll(jsonUsers);
-                            notifyItemRangeInserted(size, jsonUsers.size());
+                            view.finishLoading(true);
+                            return;
                         }
+                        int size = data.size();
 
-                        view.finishLoading(finished);
+                        data.addAll(jsonUsers);
+                        notifyItemRangeInserted(size, jsonUsers.size());
+
+                        view.finishLoading(false);
                     }
 
                     @Override
@@ -111,6 +110,7 @@ public class UserSearchAdapter extends InfiniteRecyclerView.PagingAdapter<JsonUs
                             return;
                         }
 
+                        view.finishLoading(true);
                         Toast.makeText(context, "Failed to load more users", Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -120,12 +120,10 @@ public class UserSearchAdapter extends InfiniteRecyclerView.PagingAdapter<JsonUs
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public final ImageView userImage;
         public final TextView userName;
-        public final View whole;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
-            whole = itemView;
             userImage = itemView.findViewById(R.id.search_user_image);
             userName = itemView.findViewById(R.id.search_user_name);
         }

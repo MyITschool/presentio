@@ -14,7 +14,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/bottom_menu"
         app:defaultNavHost="true"
-        app:navGraph="@navigation/app_nav"/>
+        app:navGraph="@navigation/app_nav" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_menu"
@@ -29,6 +29,6 @@
         app:itemIconTint="?attr/menuIconColor"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:menu="@menu/app_menu"/>
+        app:menu="@menu/app_menu" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

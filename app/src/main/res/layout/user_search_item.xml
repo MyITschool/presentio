@@ -7,8 +7,9 @@
 
     <ImageView
         android:id="@+id/search_user_image"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@drawable/image_corners"
 
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent" />
@@ -18,6 +19,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
+        android:textSize="18sp"
 
         app:layout_constraintTop_toTopOf="@id/search_user_image"
         app:layout_constraintLeft_toRightOf="@id/search_user_image"

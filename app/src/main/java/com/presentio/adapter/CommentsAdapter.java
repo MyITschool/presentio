@@ -51,19 +51,18 @@ public class CommentsAdapter extends InfiniteRecyclerView.PagingAdapter<JsonComm
 
                     @Override
                     public void onSuccess(ArrayList<JsonComment> jsonComments) {
-                        boolean commentsFinished = false;
-
                         if (jsonComments.size() == 0) {
-                            commentsFinished = true;
-                        } else {
-                            int size = data.size();
-
-                            data.addAll(jsonComments);
-
-                            notifyItemRangeInserted(size, jsonComments.size());
+                            view.finishLoading(true);
+                            return;
                         }
 
-                        view.finishLoading(commentsFinished);
+                        int size = data.size();
+
+                        data.addAll(jsonComments);
+
+                        notifyItemRangeInserted(size, jsonComments.size());
+
+                        view.finishLoading(false);
                     }
 
                     @Override
@@ -73,6 +72,7 @@ public class CommentsAdapter extends InfiniteRecyclerView.PagingAdapter<JsonComm
                             return;
                         }
 
+                        view.finishLoading(true);
                         Toast.makeText(view.getContext(), "Failed to fetch more comments", Toast.LENGTH_SHORT).show();
                     }
                 }

@@ -24,12 +24,14 @@ public abstract class PostsAdapter extends InfiniteRecyclerView.PagingAdapter<Js
     public boolean isList = true;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        final View v;
+        final PostFullView fullPost;
+        final PostGridView gridPost;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
-            v = itemView.findViewById(R.id.item_post);
+            fullPost = itemView.findViewById(R.id.item_full_post);
+            gridPost = itemView.findViewById(R.id.item_grid_post);
         }
     }
 
@@ -40,17 +42,9 @@ public abstract class PostsAdapter extends InfiniteRecyclerView.PagingAdapter<Js
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view;
-
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
 
-        if (isList) {
-            view = inflater.inflate(R.layout.post_list_item, parent, false);
-        } else {
-            view = inflater.inflate(R.layout.post_grid_item, parent, false);
-        }
-
-        return new ViewHolder(view);
+        return new ViewHolder(inflater.inflate(R.layout.post_item, parent, false));
     }
 
     @Override
@@ -65,15 +59,24 @@ public abstract class PostsAdapter extends InfiniteRecyclerView.PagingAdapter<Js
     }
 
     private void bindListPost(ViewHolder holder, JsonFpost post) {
-        PostFullView fullPost = (PostFullView) holder.v;
+        holder.gridPost.setVisibility(View.GONE);
+        holder.fullPost.setVisibility(View.VISIBLE);
 
-        fullPost.fillView(post, getListEventHandler(holder, fullPost), getListMenuHandler(holder, fullPost));
+        holder.fullPost.fillView(
+                post,
+                getListEventHandler(holder, holder.fullPost),
+                getListMenuHandler(holder, holder.fullPost)
+        );
     }
 
     private void bindGridPost(ViewHolder holder, JsonFpost post) {
-        PostGridView gridPost = (PostGridView) holder.v;
+        holder.fullPost.setVisibility(View.GONE);
+        holder.gridPost.setVisibility(View.VISIBLE);
 
-        gridPost.fillView(post, getGridEventHandler(holder, gridPost));
+        holder.gridPost.fillView(
+                post,
+                getGridEventHandler(holder, holder.gridPost)
+        );
     }
 
     @Override
@@ -90,9 +93,9 @@ public abstract class PostsAdapter extends InfiniteRecyclerView.PagingAdapter<Js
         return disposable;
     }
 
-    protected abstract PostFullView.EventHandler getListEventHandler(RecyclerView.ViewHolder holder, PostFullView fullPost);
+    protected abstract PostFullView.EventHandler getListEventHandler(PostsAdapter.ViewHolder holder, PostFullView fullPost);
 
-    protected abstract PostFullView.MenuHandler getListMenuHandler(RecyclerView.ViewHolder holder, PostFullView fullPost);
+    protected abstract PostFullView.MenuHandler getListMenuHandler(PostsAdapter.ViewHolder holder, PostFullView fullPost);
 
-    protected abstract PostGridView.EventHandler getGridEventHandler(RecyclerView.ViewHolder holder, PostGridView gridPost);
+    protected abstract PostGridView.EventHandler getGridEventHandler(PostsAdapter.ViewHolder holder, PostGridView gridPost);
 }

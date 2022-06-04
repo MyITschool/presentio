@@ -2,6 +2,7 @@ package com.presentio.fragment;
 
 import android.os.Bundle;
 
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.view.LayoutInflater;
@@ -10,46 +11,50 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.presentio.R;
 import com.presentio.adapter.HomeAdapter;
 import com.presentio.di.DaggerOkHttpComponent;
 import com.presentio.di.OkHttpComponent;
 import com.presentio.di.OkHttpModule;
+import com.presentio.handler.PostEventHandler;
 import com.presentio.js2p.structs.JsonFpost;
+import com.presentio.js2p.structs.JsonUserInfo;
 import com.presentio.requests.DataHandler;
 import com.presentio.http.Api;
+import com.presentio.requests.GetUserInfoRequest;
+import com.presentio.requests.PostSearchRequest;
+import com.presentio.requests.RepostRequest;
+import com.presentio.util.ObservableUtil;
 import com.presentio.view.PostsView;
 
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 import javax.inject.Inject;
 
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
-import io.reactivex.rxjava3.core.Single;
 import io.reactivex.rxjava3.core.SingleObserver;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 
 import io.reactivex.rxjava3.disposables.Disposable;
-import io.reactivex.rxjava3.schedulers.Schedulers;
 import okhttp3.OkHttpClient;
 import okhttp3.Response;
 
-public class HomeFragment extends RefreshDataFragment<ArrayList<JsonFpost>> {
-    private HomeAdapter adapter;
+public class HomeFragment extends RefreshDataFragment<HomeFragment.HomeData> {
     private final CompositeDisposable disposable = new CompositeDisposable();
-
     private boolean isList = true;
+    private Api postsApi, userApi;
 
     @Inject
     OkHttpClient client;
 
+    public static class HomeData {
+        public ArrayList<JsonFpost> posts;
+        public JsonUserInfo myUserInfo;
+    }
+    
     @Override
     protected void initialize() {
-        data = new ArrayList<JsonFpost>();
+        data = new HomeData();
 
         OkHttpComponent component = DaggerOkHttpComponent.builder().okHttpModule(
                 new OkHttpModule(this.getContext())
@@ -57,7 +62,111 @@ public class HomeFragment extends RefreshDataFragment<ArrayList<JsonFpost>> {
 
         component.inject(this);
 
-        adapter = new HomeAdapter(data, getContext(), new Api(getContext(), client, Api.HOST_POSTS_SERVICE));
+        postsApi = new Api(getContext(), client, Api.HOST_POSTS_SERVICE);
+        userApi = new Api(getContext(), client, Api.HOST_USER_SERVICE);
+    }
+
+    private abstract static class HomeDataHandler implements DataHandler {
+        private static final int TOTAL = 2;
+        private int completed = 0;
+        private boolean success = true;
+
+        @Override
+        public void finish(boolean success) {
+            this.success &= success;
+            completed++;
+
+            if (completed == TOTAL) {
+                doFinish(this.success);
+            }
+        }
+
+        protected abstract void doFinish(boolean success);
+    }
+    
+    @Override
+    protected void loadInitialData() {
+        requestData(new HomeDataHandler() {
+            @Override
+            public Response getResponse(Api api, String url) throws Api.ApiException, IOException {
+                return api.request(url);
+            }
+
+            @Override
+            protected void doFinish(boolean success) {
+                onInitialLoadFinished(success);
+            }
+        });
+    }
+
+    @Override
+    protected void refreshData() {
+        requestData(new HomeDataHandler() {
+            @Override
+            public Response getResponse(Api api, String url) throws Api.ApiException, IOException {
+                return api.requestForce(url);
+            }
+
+            @Override
+            protected void doFinish(boolean success) {
+                onRefreshFinished(success);
+            }
+        });
+    }
+    
+    private void requestData(DataHandler handler) {
+        ObservableUtil.singleIo(
+                new PostSearchRequest(postsApi, 0, "tag=подарок"),
+                new SingleObserver<ArrayList<JsonFpost>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        disposable.add(d);
+                    }
+
+                    @Override
+                    public void onSuccess(ArrayList<JsonFpost> jsonPosts) {
+                        data.posts = jsonPosts;
+
+                        handler.finish(true);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        if (e instanceof Api.InvalidCredentialsException) {
+                            Api.logout();
+                            return;
+                        }
+
+                        handler.finish(false);
+                    }
+                }
+        );
+        
+        ObservableUtil.singleIo(
+                new GetUserInfoRequest(handler, userApi),
+                new SingleObserver<JsonUserInfo>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        disposable.add(d);
+                    }
+
+                    @Override
+                    public void onSuccess(JsonUserInfo jsonUserInfo) {
+                        data.myUserInfo = jsonUserInfo;
+                        handler.finish(true);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        if (e instanceof Api.InvalidCredentialsException) {
+                            Api.logout();
+                            return;
+                        }
+                        
+                        handler.finish(false);
+                    }
+                }
+        );
     }
 
     @Override
@@ -73,7 +182,7 @@ public class HomeFragment extends RefreshDataFragment<ArrayList<JsonFpost>> {
     @Override
     protected void initializeView(View view, boolean success) {
         if (success) {
-            // fillView(view);
+             fillView(view);
         } else {
             Toast.makeText(getContext(), getString(R.string.data_init_fail), Toast.LENGTH_SHORT).show();
         }
@@ -97,6 +206,8 @@ public class HomeFragment extends RefreshDataFragment<ArrayList<JsonFpost>> {
 
     private void fillView(View view) {
         PostsView feed = view.findViewById(R.id.feed);
+
+        HomeAdapter adapter = getHomeAdapter(data.posts);
 
         feed.setPagingAdapter(adapter);
         feed.setList(isList);
@@ -132,64 +243,23 @@ public class HomeFragment extends RefreshDataFragment<ArrayList<JsonFpost>> {
     }
 
     @Override
-    protected void loadInitialData() {
-        requestData(new DataHandler() {
-            @Override
-            public Response getResponse(Api api, String url) throws Api.ApiException, IOException {
-                return api.request(url);
-            }
-
-            @Override
-            public void finish(boolean success) {
-                onInitialLoadFinished(success);
-            }
-        });
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.home_fragment, container, false);
     }
 
-    @Override
-    protected void refreshData() {
-        requestData(new DataHandler() {
-            @Override
-            public Response getResponse(Api api, String url) throws Api.ApiException, IOException {
-                return api.requestForce(url);
-            }
-
-            @Override
-            public void finish(boolean success) {
-                onRefreshFinished(success);
-            }
-        });
-    }
-
-    private void requestData(DataHandler handler) {
-        Single.fromCallable(() -> {
-            Api api = new Api(getContext(), client, Api.HOST_POSTS_SERVICE);
-
-            Response response = handler.getResponse(api, "/v0/recommended/0");
-
-            Gson gson = new Gson();
-            Type type = new TypeToken<ArrayList<JsonFpost>>() {}.getType();
-
-            return gson.<ArrayList<JsonFpost>>fromJson(response.body().charStream(), type);
-        })
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new SingleObserver<ArrayList<JsonFpost>>() {
+    private void onRepost(JsonFpost post, String text) {
+        ObservableUtil.singleIo(
+                new RepostRequest(postsApi, text, post),
+                new SingleObserver<Integer>() {
                     @Override
                     public void onSubscribe(Disposable d) {
                         disposable.add(d);
                     }
 
                     @Override
-                    public void onSuccess(ArrayList<JsonFpost> jsonPosts) {
-                        int size = data.size();
-
-                        data.clear();
-                        data.addAll(jsonPosts);
-                        adapter.notifyItemRangeRemoved(0, size);
-                        adapter.notifyItemRangeInserted(0, data.size());
-
-                        handler.finish(true);
+                    public void onSuccess(Integer integer) {
+                        Toast.makeText(getContext(), "Repost was made", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
@@ -199,15 +269,31 @@ public class HomeFragment extends RefreshDataFragment<ArrayList<JsonFpost>> {
                             return;
                         }
 
-                        handler.finish(false);
+                        Toast.makeText(getContext(), "Failed to create post", Toast.LENGTH_SHORT).show();
                     }
                 });
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.home_fragment, container, false);
+    public HomeAdapter getHomeAdapter(ArrayList<JsonFpost> posts) {
+        return new HomeAdapter(posts, getContext(), postsApi, new PostEventHandler() {
+            @Override
+            public void onOpen(JsonFpost post) {
+                NavHostFragment.findNavController(HomeFragment.this).navigate(
+                        HomeFragmentDirections.actionHomeFragmentToPostFragment(post.id)
+                );
+            }
+
+            @Override
+            public void onRepost(JsonFpost post) {
+                RepostSheetFragment fragment = new RepostSheetFragment(
+                        data.myUserInfo.user,
+                        post,
+                        HomeFragment.this::onRepost
+                );
+
+                fragment.show(getChildFragmentManager(), RepostSheetFragment.TAG);
+            }
+        });
     }
 
     @Override

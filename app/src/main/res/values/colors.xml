@@ -13,10 +13,7 @@
     <color name="logo_gradient_start">@color/purple_500</color>
 
 <!--Text colors-->
-    <color name="negligibly_dimmed_white">#eaffffff</color>
-    <color name="dimmed_white">#daffffff</color>
-    <color name="mediumly_dimmed_white">#baffffff</color>
-    <color name="highly_dimmed_white">#9affffff</color>
+    <color name="negligibly_dimmed_white">#dfdfdf</color>
 
     <color name="s">#eaeaea</color>
 </resources>

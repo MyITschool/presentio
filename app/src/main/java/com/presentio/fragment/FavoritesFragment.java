@@ -237,6 +237,7 @@ public class FavoritesFragment extends RefreshDataFragment<FavoritesFragment.Fav
                                 post,
                                 FavoritesFragment.this::onRepost
                         );
+
                         fragment.show(getChildFragmentManager(), RepostSheetFragment.TAG);
                     }
                 }

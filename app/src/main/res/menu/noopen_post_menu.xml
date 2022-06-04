@@ -3,10 +3,10 @@
 
     <item
         android:id="@+id/post_not_interested"
-        android:title="Not interested"/>
+        android:title="Not interested" />
 
     <item
         android:id="@+id/post_hide"
-        android:title="Hide"/>
+        android:title="Hide" />
 
 </menu>

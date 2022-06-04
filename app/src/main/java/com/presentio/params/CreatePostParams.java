@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 public class CreatePostParams {
     public final String text;
-    public ArrayList<String> tags = new ArrayList<>();
-    public String[] attachments = new String[]{};
+    public ArrayList<String> tags;
+    public String[] attachments;
     public Long sourceId, sourceUserId;
     public Float photoRatio;
 

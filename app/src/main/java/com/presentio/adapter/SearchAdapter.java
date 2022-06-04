@@ -79,12 +79,14 @@ public class SearchAdapter extends PostsAdapter {
     }
 
     @Override
-    protected PostFullView.EventHandler getListEventHandler(RecyclerView.ViewHolder holder, PostFullView fullPost) {
+    protected PostFullView.EventHandler getListEventHandler(PostsAdapter.ViewHolder holder, PostFullView fullPost) {
         return new AwareListEventHandler(context, postsApi, disposable, fullPost) {
             @Override
             protected void removeItem() {
-                data.remove(holder.getAdapterPosition());
-                notifyItemRemoved(holder.getAdapterPosition());
+                int pos = holder.getAdapterPosition();
+
+                data.remove(pos);
+                notifyItemRemoved(pos);
             }
 
             @Override
@@ -100,12 +102,12 @@ public class SearchAdapter extends PostsAdapter {
     }
 
     @Override
-    protected PostFullView.MenuHandler getListMenuHandler(RecyclerView.ViewHolder holder, PostFullView fullPost) {
+    protected PostFullView.MenuHandler getListMenuHandler(PostsAdapter.ViewHolder holder, PostFullView fullPost) {
         return new DefaultMenuHandler(context);
     }
 
     @Override
-    protected PostGridView.EventHandler getGridEventHandler(RecyclerView.ViewHolder holder, PostGridView gridPost) {
+    protected PostGridView.EventHandler getGridEventHandler(PostsAdapter.ViewHolder holder, PostGridView gridPost) {
         return null;
     }
 }

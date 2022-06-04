@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -185,15 +186,21 @@ public class CreatePostFragment extends Fragment {
         LayoutInflater inflater = LayoutInflater.from(getContext());
         View customView = inflater.inflate(R.layout.image_dialog,null);
 
-        new MaterialAlertDialogBuilder(getContext(), R.style.ImageAlertDialog)
+        AlertDialog dialog = new MaterialAlertDialogBuilder(getContext(), R.style.ImageAlertDialog)
                 .setTitle("Choose")
                 .setView(customView)
                 .setNegativeButton("Cancel", null)
                 .show();
 
-        customView.findViewById(R.id.pick_camera).setOnClickListener(v -> openPicker(ImageProvider.CAMERA));
+        customView.findViewById(R.id.pick_camera).setOnClickListener(v -> {
+            dialog.dismiss();
+            openPicker(ImageProvider.CAMERA);
+        });
 
-        customView.findViewById(R.id.pick_gallery).setOnClickListener(v -> openPicker(ImageProvider.GALLERY));
+        customView.findViewById(R.id.pick_gallery).setOnClickListener(v -> {
+            dialog.dismiss();
+            openPicker(ImageProvider.GALLERY);
+        });
     }
 
     private void openPicker(ImageProvider provider) {

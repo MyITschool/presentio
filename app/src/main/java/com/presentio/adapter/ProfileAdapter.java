@@ -40,12 +40,14 @@ public class ProfileAdapter extends PostsAdapter {
     }
 
     @Override
-    protected PostFullView.EventHandler getListEventHandler(RecyclerView.ViewHolder holder, PostFullView fullPost) {
+    protected PostFullView.EventHandler getListEventHandler(PostsAdapter.ViewHolder holder, PostFullView fullPost) {
         return new AwareListEventHandler(context, postsApi, disposable, fullPost) {
             @Override
             protected void removeItem() {
-                data.remove(holder.getAdapterPosition());
-                notifyItemRemoved(holder.getAdapterPosition());
+                int pos = holder.getAdapterPosition();
+
+                data.remove(pos);
+                notifyItemRemoved(pos);
             }
 
             @Override
@@ -61,7 +63,7 @@ public class ProfileAdapter extends PostsAdapter {
     }
 
     @Override
-    protected PostFullView.MenuHandler getListMenuHandler(RecyclerView.ViewHolder holder, PostFullView fullPost) {
+    protected PostFullView.MenuHandler getListMenuHandler(PostsAdapter.ViewHolder holder, PostFullView fullPost) {
         return new DefaultMenuHandler(context);
     }
 
@@ -77,19 +79,17 @@ public class ProfileAdapter extends PostsAdapter {
 
                     @Override
                     public void onSuccess(ArrayList<JsonFpost> jsonPosts) {
-                        boolean postsFinished = false;
-
                         if (jsonPosts.size() == 0) {
-                            postsFinished = true;
-                        } else {
-                            int size = data.size();
-
-                            data.addAll(jsonPosts);
-
-                            notifyItemRangeInserted(size, jsonPosts.size());
+                            view.finishLoading(true);
+                            return;
                         }
+                        int size = data.size();
 
-                        view.finishLoading(postsFinished);
+                        data.addAll(jsonPosts);
+
+                        notifyItemRangeInserted(size, jsonPosts.size());
+
+                        view.finishLoading(false);
                     }
 
                     @Override
@@ -99,6 +99,7 @@ public class ProfileAdapter extends PostsAdapter {
                             return;
                         }
 
+                        view.finishLoading(true);
                         Toast.makeText(context, "Failed to fetch more posts", Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -106,7 +107,7 @@ public class ProfileAdapter extends PostsAdapter {
     }
 
     @Override
-    protected PostGridView.EventHandler getGridEventHandler(RecyclerView.ViewHolder holder, PostGridView gridPost) {
+    protected PostGridView.EventHandler getGridEventHandler(PostsAdapter.ViewHolder holder, PostGridView gridPost) {
         return null;
     }
 }

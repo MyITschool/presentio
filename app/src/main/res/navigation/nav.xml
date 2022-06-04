@@ -13,7 +13,7 @@
             android:id="@+id/action_authorizationFragment_to_appFragment"
             app:destination="@id/appFragment"
             app:popUpTo="@id/authorizationFragment"
-            app:popUpToInclusive="true"/>
+            app:popUpToInclusive="true" />
 
     </fragment>
 
@@ -26,7 +26,7 @@
             android:id="@+id/action_appFragment_to_authorizationFragment"
             app:destination="@id/authorizationFragment"
             app:popUpTo="@id/appFragment"
-            app:popUpToInclusive="true"/>
+            app:popUpToInclusive="true" />
 
     </fragment>
 

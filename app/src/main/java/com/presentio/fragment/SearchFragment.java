@@ -117,6 +117,8 @@ public class SearchFragment extends RefreshDataFragment<SearchFragment.SearchDat
         searchBar.setSuggestionsAdapter(suggestionsAdapter);
         searchBar.setMaxSuggestionCount(MAX_SUGGESTIONS_COUNT);
 
+        searchBar.getPlaceHolderView().setTextSize(TypedValue.COMPLEX_UNIT_SP, 22);
+
         return view;
     }
 
@@ -257,8 +259,6 @@ public class SearchFragment extends RefreshDataFragment<SearchFragment.SearchDat
 
         searchBar.setCustomSuggestionAdapter(suggestionsAdapter);
         searchBar.setMaxSuggestionCount(MAX_SUGGESTIONS_COUNT);
-
-        searchBar.getPlaceHolderView().setTextSize(TypedValue.COMPLEX_UNIT_SP, 22);
 
         if (lastSuggestions == null) {
             lastSuggestions = searchBar.getLastSuggestions();

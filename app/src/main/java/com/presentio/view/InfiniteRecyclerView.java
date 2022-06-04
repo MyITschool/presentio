@@ -5,6 +5,7 @@ import android.util.AttributeSet;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import java.util.ArrayList;
 
@@ -46,8 +47,9 @@ public class InfiniteRecyclerView extends RecyclerView {
 
                 if (manager instanceof LinearLayoutManager) {
                     position = ((LinearLayoutManager) manager).findLastVisibleItemPosition();
+                } else if (manager instanceof StaggeredGridLayoutManager) {
+                    position = ((StaggeredGridLayoutManager) manager).findLastVisibleItemPositions(null)[0];
                 }
-
 
                 if (position == NO_POSITION) {
                     return;

@@ -14,7 +14,7 @@
         android:background="@drawable/border_bottom"
 
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"/>
+        app:layout_constraintLeft_toLeftOf="parent" />
 
     <TextView
         android:id="@+id/favorites_no_posts"
@@ -35,6 +35,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="gone"
+        android:background="?attr/blockColor"
 
         app:layout_constraintTop_toBottomOf="@id/favorites_post_menu"
         app:layout_constraintLeft_toLeftOf="parent">
