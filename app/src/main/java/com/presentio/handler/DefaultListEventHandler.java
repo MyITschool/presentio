@@ -70,13 +70,6 @@ public abstract class DefaultListEventHandler implements PostFullView.EventHandl
     }
 
     @Override
-    public void onNotInterested(JsonFpost post) {
-        removeItem();
-
-        // TODO not interested
-    }
-
-    @Override
     public void onHitLike(JsonFpost post) {
         ObservableUtil.singleIo(
                 new ToggleLikeRequest(postsApi, post),

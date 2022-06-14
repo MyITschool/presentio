@@ -22,8 +22,6 @@ public class NoOpenMenuHandler extends PopupMenuHandler {
             handler.onDelete(post);
         } else if (itemId == R.id.post_hide) {
             handler.onHide(post);
-        } else if (itemId == R.id.post_not_interested) {
-            handler.onNotInterested(post);
         }
     }
 }

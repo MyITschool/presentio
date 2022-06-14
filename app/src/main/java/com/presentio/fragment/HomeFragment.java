@@ -21,8 +21,8 @@ import com.presentio.js2p.structs.JsonFpost;
 import com.presentio.js2p.structs.JsonUserInfo;
 import com.presentio.requests.DataHandler;
 import com.presentio.http.Api;
+import com.presentio.requests.GetRecommendedPosts;
 import com.presentio.requests.GetUserInfoRequest;
-import com.presentio.requests.PostSearchRequest;
 import com.presentio.requests.RepostRequest;
 import com.presentio.util.ObservableUtil;
 import com.presentio.view.PostsView;
@@ -116,7 +116,7 @@ public class HomeFragment extends RefreshDataFragment<HomeFragment.HomeData> {
     
     private void requestData(DataHandler handler) {
         ObservableUtil.singleIo(
-                new PostSearchRequest(postsApi, 0, "tag=подарок"),
+                new GetRecommendedPosts(handler, postsApi, 0),
                 new SingleObserver<ArrayList<JsonFpost>>() {
                     @Override
                     public void onSubscribe(Disposable d) {

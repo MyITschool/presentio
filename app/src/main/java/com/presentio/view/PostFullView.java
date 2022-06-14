@@ -28,7 +28,6 @@ public class PostFullView extends ConstraintLayout {
         void onDelete(JsonFpost post);
         void onOpen(JsonFpost post);
         void onHide(JsonFpost post);
-        void onNotInterested(JsonFpost post);
         void onHitLike(JsonFpost post);
         void onHitComment(JsonFpost post);
         void onHitRepost(JsonFpost post);

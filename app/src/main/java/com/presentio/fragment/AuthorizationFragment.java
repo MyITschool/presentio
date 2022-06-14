@@ -28,6 +28,7 @@ import com.presentio.db.ObjectBox;
 import com.presentio.di.DaggerOkHttpComponent;
 import com.presentio.di.OkHttpComponent;
 import com.presentio.di.OkHttpModule;
+import com.presentio.http.Api;
 import com.presentio.js2p.JsonAuth;
 import com.presentio.models.SearchRequest;
 import com.presentio.params.AuthorizeParams;
@@ -260,7 +261,7 @@ public class AuthorizationFragment extends Fragment {
         return new Request.Builder()
                 .cacheControl(CacheControl.FORCE_NETWORK)
                 .method("POST", RequestBody.create(MediaType.parse("text/json"), tokenJson))
-                .url("https://presentio-server-user.herokuapp.com/v0/auth/" + path)
+                .url(Api.HOST_USER_SERVICE + "/v0/auth/" + path)
                 .build();
     }
 

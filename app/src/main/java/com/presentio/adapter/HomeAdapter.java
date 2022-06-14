@@ -8,7 +8,7 @@ import com.presentio.handler.DefaultMenuHandler;
 import com.presentio.handler.PostEventHandler;
 import com.presentio.js2p.structs.JsonFpost;
 import com.presentio.http.Api;
-import com.presentio.requests.PostSearchRequest;
+import com.presentio.requests.GetRecommendedPosts;
 import com.presentio.util.ObservableUtil;
 import com.presentio.view.InfiniteRecyclerView;
 import com.presentio.view.PostFullView;
@@ -68,7 +68,7 @@ public class HomeAdapter extends PostsAdapter {
     @Override
     protected void loadData(InfiniteRecyclerView view, int page) {
         ObservableUtil.singleIo(
-                new PostSearchRequest(postsApi, page, "tag=подарок"),
+                new GetRecommendedPosts(postsApi, page),
                 new SingleObserver<ArrayList<JsonFpost>>() {
                     @Override
                     public void onSubscribe(Disposable d) {

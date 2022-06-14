@@ -40,8 +40,8 @@ public class Api {
         void onLogout();
     }
 
-    public static final String HOST_USER_SERVICE = "https://presentio-server-user.herokuapp.com";
-    public static final String HOST_POSTS_SERVICE = "https://presentio-server-posts.herokuapp.com";
+    public static final String HOST_USER_SERVICE = "http://188.225.10.136:8080";
+    public static final String HOST_POSTS_SERVICE = "http://188.225.10.136:8081";
 
     private static final String REFRESH_HOST = HOST_USER_SERVICE;
 
