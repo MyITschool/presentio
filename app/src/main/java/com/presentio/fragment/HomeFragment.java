@@ -200,7 +200,6 @@ public class HomeFragment extends RefreshDataFragment<HomeFragment.HomeData> {
         }
 
         SwipeRefreshLayout swipeRefreshLayout = view.findViewById(R.id.refresh_feed);
-
         swipeRefreshLayout.setRefreshing(false);
     }
 
@@ -210,6 +209,7 @@ public class HomeFragment extends RefreshDataFragment<HomeFragment.HomeData> {
         HomeAdapter adapter = getHomeAdapter(data.posts);
 
         feed.setPagingAdapter(adapter);
+        adapter.isList = isList;
         feed.setList(isList);
 
         ImageButton listButton = view.findViewById(R.id.list_button);

@@ -227,7 +227,6 @@ public class ProfileFragment extends RefreshDataFragment<ProfileFragment.Profile
         }
 
         SwipeRefreshLayout refreshProfile = view.findViewById(R.id.refresh_profile);
-
         refreshProfile.setOnRefreshListener(() -> refreshProfile.setRefreshing(onRefresh()));
     }
 
@@ -240,7 +239,6 @@ public class ProfileFragment extends RefreshDataFragment<ProfileFragment.Profile
         }
 
         SwipeRefreshLayout refreshProfile = view.findViewById(R.id.refresh_profile);
-
         refreshProfile.setRefreshing(false);
     }
 
@@ -254,6 +252,8 @@ public class ProfileFragment extends RefreshDataFragment<ProfileFragment.Profile
 
         ImageView favorites = view.findViewById(R.id.profile_favorites);
         ViewUtil.setVisible(favorites, data.userInfo.self);
+
+        ViewUtil.setVisible(view.findViewById(R.id.profile_create), data.userInfo.self);
 
         favorites.setOnClickListener(v -> {
             NavHostFragment.findNavController(this).navigate(

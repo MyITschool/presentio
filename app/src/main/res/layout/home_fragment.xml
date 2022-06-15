@@ -44,23 +44,6 @@
                 android:textSize="19sp"
                 android:text="For you" />
 
-            <TextView
-                android:layout_width="4dp"
-                android:layout_height="4dp"
-                android:backgroundTint="?attr/menuIconColor"
-                android:background="@drawable/image_corners"
-                android:layout_marginHorizontal="6dp"
-
-                android:layout_gravity="center" />
-
-            <TextView
-                android:id="@+id/following_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="19sp"
-                android:textColor="?attr/inactiveTextColor"
-                android:text="Following" />
-
         </LinearLayout>
 
         <LinearLayout
