@@ -11,7 +11,6 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavDirections;
-import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.google.android.gms.auth.api.identity.BeginSignInRequest;
@@ -33,6 +32,7 @@ import com.presentio.js2p.JsonAuth;
 import com.presentio.models.SearchRequest;
 import com.presentio.params.AuthorizeParams;
 import com.presentio.util.AccessTokenUtil;
+import com.presentio.util.ObservableUtil;
 import com.presentio.util.SharedPreferencesUtil;
 
 import java.io.IOException;
@@ -41,12 +41,9 @@ import java.util.Optional;
 import javax.inject.Inject;
 
 import io.objectbox.Box;
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
-import io.reactivex.rxjava3.core.Single;
 import io.reactivex.rxjava3.core.SingleObserver;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.disposables.Disposable;
-import io.reactivex.rxjava3.schedulers.Schedulers;
 import okhttp3.CacheControl;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -150,10 +147,9 @@ public class AuthorizationFragment extends Fragment {
     }
 
     private void performSignIn(String idToken) {
-        Single.fromCallable(() -> makeAuthRequest(createHttpSignInRequest(idToken)))
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new SingleObserver<Optional<JsonAuth>>() {
+        ObservableUtil.singleIo(
+                () -> makeAuthRequest(createHttpSignInRequest(idToken)),
+                new SingleObserver<Optional<JsonAuth>>() {
                     @Override
                     public void onSubscribe(Disposable d) {
                         disposable.add(d);
@@ -169,14 +165,14 @@ public class AuthorizationFragment extends Fragment {
                         Toast.makeText(getContext(), "Failed to connect to server", Toast.LENGTH_SHORT).show();
                         isCurrRequesting = false;
                     }
-                });
+                }
+        );
     }
 
     private void performSignUp(String idToken) {
-        Single.fromCallable(() -> makeAuthRequest(createHttpSignUpRequest(idToken)))
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new SingleObserver<Optional<JsonAuth>>() {
+        ObservableUtil.singleIo(
+                () -> makeAuthRequest(createHttpSignUpRequest(idToken)),
+                new SingleObserver<Optional<JsonAuth>>() {
                     @Override
                     public void onSubscribe(Disposable d) {
                         disposable.add(d);
@@ -192,7 +188,8 @@ public class AuthorizationFragment extends Fragment {
                         Toast.makeText(getContext(), "Cannot connect to server", Toast.LENGTH_SHORT).show();
                         isCurrRequesting = false;
                     }
-                });
+                }
+        );
     }
 
     private Optional<JsonAuth> makeAuthRequest(Request request) throws IOException {
@@ -285,7 +282,7 @@ public class AuthorizationFragment extends Fragment {
                 })
                 .addOnFailureListener(e -> {
                     isCurrRequesting = false;
-                    Toast.makeText(getContext(), e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Cannot find proper Google account", Toast.LENGTH_SHORT).show();
                 });
     }
 
